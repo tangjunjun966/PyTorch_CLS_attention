@@ -12,7 +12,7 @@ def init_cls_model(checkpoint_path, is_multi_gpu=False, classes=2):
 
     my_model = resnet50_cbam(num_classes=classes)
     state_dict = torch.load(checkpoint_path)['state_dict']
-    if is_multi_gpu:
+    if 'module' in list(state_dict.keys())[0]:  # 判断是否是多gpu产生模型
         new_state_dict = OrderedDict()
         for k, v in state_dict.items():
             name = k[7:]  # remove `module.`
